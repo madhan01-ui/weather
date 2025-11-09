@@ -1,27 +1,108 @@
 /* === BASIC STYLE === */
 body {
   margin: 0;
-  padding: 0;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   text-align: center;
-  background: linear-gradient(to bottom, #4fc3f7, #81d4fa);
-  color: white;
-  overflow: hidden;
+  color: #fff;
   transition: background 1s ease;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .app {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  z-index: 2;
+  background: rgba(0,0,0,0.4);
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.4);
 }
 
-.search {
-  margin: 20px 0;
+input {
+  padding: 8px;
+  font-size: 16px;
+  width: 200px;
+}
+
+button {
+  padding: 8px 12px;
+  font-size: 16px;
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+/* ☀️ Sunny Animation */
+.sunny {
+  background: linear-gradient(to top, #ffb347, #ffcc33);
+}
+
+/* ☁️ Cloudy Animation */
+.cloudy {
+  background: linear-gradient(to top, #757f9a, #d7dde8);
+  overflow: hidden;
+}
+.cloudy::before, .cloudy::after {
+  content: "";
+  position: absolute;
+  top: 20%;
+  left: 10%;
+  width: 100px;
+  height: 60px;
+  background: #fff;
+  border-radius: 50%;
+  animation: cloudMove 10s linear infinite;
+}
+.cloudy::after {
+  left: 60%;
+  animation-delay: 5s;
+}
+@keyframes cloudMove {
+  0% { transform: translateX(0); opacity: 0.9; }
+  100% { transform: translateX(100vw); opacity: 0.5; }
+}
+
+/* 🌧️ Rain Animation */
+.rainy {
+  background: linear-gradient(to top, #232526, #414345);
+  overflow: hidden;
+}
+.rainy::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2px;
+  height: 20px;
+  background: rgba(255,255,255,0.6);
+  animation: rain 0.5s linear infinite;
+}
+@keyframes rain {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(100vh); opacity: 0; }
+}
+
+/* 🌫️ Misty Animation */
+.misty {
+  background: linear-gradient(to top, #606c88, #3f4c6b);
+}
+.misty::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255,255,255,0.2);
+  animation: mist 5s ease-in-out infinite alternate;
+}
+@keyframes mist {
+  from { opacity: 0.2; }
+  to { opacity: 0.5; }
+}
+
+#result {
+  margin-top: 20px;
+  font-size: 18px;
 }
 
 input {
@@ -102,3 +183,4 @@ canvas#rainCanvas {
   display: none;
   z-index: 1;
 }
+
