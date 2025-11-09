@@ -2,7 +2,7 @@ async function getWeather() {
   const city = document.getElementById("cityInput").value.trim();
   const box = document.getElementById("weatherBox");
   const rainCanvas = document.getElementById("rainCanvas");
-  const apiKey = "YOUR_API_KEY"; // 🔸 Replace with your OpenWeather key
+  const apiKey = "fae9c95f3c1cbde39338cc563b7c29e9"; // 🔸 Replace with your OpenWeather key
 
   if (!city) {
     box.innerHTML = "Please enter a city name!";
@@ -64,5 +64,6 @@ function changeBackground(type) {
     body.style.background = "linear-gradient(to bottom, #607d8b, #90a4ae)";
   }
 }
+
 
 
