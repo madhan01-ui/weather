@@ -1,15 +1,14 @@
 async function getWeather() {
   const city = document.getElementById("cityInput").value.trim();
   const box = document.getElementById("weatherBox");
-  const rainCanvas = document.getElementById("rainCanvas");
-  const apiKey = "fae9c95f3c1cbde39338cc563b7c29e9"; // 🔸 Replace with your OpenWeather key
+  const apiKey ="fae9c95f3c1cbde39338cc563b7c29e9"; // Replace with your key
 
   if (!city) {
     box.innerHTML = "Please enter a city name!";
     return;
   }
 
-  box.innerHTML = "Loading...";
+  box.innerHTML = `<p class="fade-in">Fetching weather...</p>`;
 
   const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
 
@@ -22,48 +21,51 @@ async function getWeather() {
       return;
     }
 
-    const weatherType = data.weather[0].main.toLowerCase();
+    const weather = data.weather[0].main.toLowerCase();
     const icon = data.weather[0].icon;
     const temp = Math.round(data.main.temp);
     const desc = data.weather[0].description;
 
-    // Display result
+    // Display
     box.innerHTML = `
-      <h2>${data.name}, ${data.sys.country}</h2>
-      <img src="https://openweathermap.org/img/wn/${icon}@2x.png" alt="icon">
-      <p>${desc}</p>
-      <h3>${temp}°C</h3>
-      <p>Humidity: ${data.main.humidity}% | Wind: ${data.wind.speed} m/s</p>
+      <div class="fade-in">
+        <h2>${data.name}, ${data.sys.country}</h2>
+        <img src="https://openweathermap.org/img/wn/${icon}@2x.png" alt="icon">
+        <p>${desc}</p>
+        <h3>${temp}°C</h3>
+        <p>💧 Humidity: ${data.main.humidity}% | 🌬️ Wind: ${data.wind.speed} m/s</p>
+      </div>
     `;
 
-    // Change background based on weather
-    changeBackground(weatherType);
-
-    // Show or hide rain effect
-    if (weatherType.includes("rain")) {
-      rainCanvas.style.display = "block";
-      startRain();
-    } else {
-      rainCanvas.style.display = "none";
-      stopRain();
-    }
+    // Change background animation
+    changeBackground(weather);
   } catch (err) {
     box.innerHTML = "⚠️ Error fetching weather!";
   }
 }
 
-function changeBackground(type) {
+function changeBackground(weatherType) {
   const body = document.body;
-  if (type.includes("rain")) {
-    body.style.background = "linear-gradient(to bottom, #2e3d55, #1c2b40)";
-  } else if (type.includes("cloud")) {
-    body.style.background = "linear-gradient(to bottom, #90a4ae, #cfd8dc)";
-  } else if (type.includes("clear")) {
-    body.style.background = "linear-gradient(to bottom, #4fc3f7, #81d4fa)";
+  const rainCanvas = document.getElementById("rainCanvas");
+
+  // Reset background class
+  body.className = "";
+
+  if (weatherType.includes("rain")) {
+    body.classList.add("rainy");
+    rainCanvas.style.display = "block";
+    startRain();
+  } else if (weatherType.includes("cloud")) {
+    body.classList.add("cloudy");
+    rainCanvas.style.display = "none";
+    stopRain();
+  } else if (weatherType.includes("clear")) {
+    body.classList.add("sunny");
+    rainCanvas.style.display = "none";
+    stopRain();
   } else {
-    body.style.background = "linear-gradient(to bottom, #607d8b, #90a4ae)";
+    body.classList.add("night");
+    rainCanvas.style.display = "none";
+    stopRain();
   }
 }
-
-
-
