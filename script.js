@@ -1,71 +1,43 @@
 async function getWeather() {
   const city = document.getElementById("cityInput").value.trim();
-  const box = document.getElementById("weatherBox");
-  const apiKey ="fae9c95f3c1cbde39338cc563b7c29e9"; // Replace with your key
-
-  if (!city) {
-    box.innerHTML = "Please enter a city name!";
-    return;
-  }
-
-  box.innerHTML = `<p class="fade-in">Fetching weather...</p>`;
-
+  const apiKey = "fae9c95f3c1cbde39338cc563b7c29e9"; // replace
   const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
 
-  try {
-    const response = await fetch(url);
-    const data = await response.json();
+  const resultDiv = document.getElementById("result");
+  const bg = document.getElementById("background");
+  resultDiv.innerHTML = "Loading...";
 
-    if (data.cod === "404") {
-      box.innerHTML = "❌ City not found!";
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+
+    if (data.cod !== 200) {
+      resultDiv.innerHTML = "❌ City not found!";
+      bg.className = "";
       return;
     }
 
     const weather = data.weather[0].main.toLowerCase();
-    const icon = data.weather[0].icon;
-    const temp = Math.round(data.main.temp);
     const desc = data.weather[0].description;
 
-    // Display
-    box.innerHTML = `
-      <div class="fade-in">
-        <h2>${data.name}, ${data.sys.country}</h2>
-        <img src="https://openweathermap.org/img/wn/${icon}@2x.png" alt="icon">
-        <p>${desc}</p>
-        <h3>${temp}°C</h3>
-        <p>💧 Humidity: ${data.main.humidity}% | 🌬️ Wind: ${data.wind.speed} m/s</p>
-      </div>
+    resultDiv.innerHTML = `
+      <h2>${data.name}, ${data.sys.country}</h2>
+      <p>${desc}</p>
+      <p>🌡️ ${data.main.temp}°C</p>
+      <p>💧 ${data.main.humidity}% humidity</p>
+      <p>🌬️ ${data.wind.speed} m/s wind</p>
     `;
 
-    // Change background animation
-    changeBackground(weather);
+    // Reset background
+    bg.className = "";
+    if (weather.includes("cloud")) bg.classList.add("cloudy");
+    else if (weather.includes("rain")) bg.classList.add("rainy");
+    else if (weather.includes("mist") || weather.includes("fog")) bg.classList.add("misty");
+    else bg.classList.add("sunny");
+
   } catch (err) {
-    box.innerHTML = "⚠️ Error fetching weather!";
+    resultDiv.innerHTML = "⚠️ Error fetching weather data!";
+    bg.className = "";
   }
 }
 
-function changeBackground(weatherType) {
-  const body = document.body;
-  const rainCanvas = document.getElementById("rainCanvas");
-
-  // Reset background class
-  body.className = "";
-
-  if (weatherType.includes("rain")) {
-    body.classList.add("rainy");
-    rainCanvas.style.display = "block";
-    startRain();
-  } else if (weatherType.includes("cloud")) {
-    body.classList.add("cloudy");
-    rainCanvas.style.display = "none";
-    stopRain();
-  } else if (weatherType.includes("clear")) {
-    body.classList.add("sunny");
-    rainCanvas.style.display = "none";
-    stopRain();
-  } else {
-    body.classList.add("night");
-    rainCanvas.style.display = "none";
-    stopRain();
-  }
-}
