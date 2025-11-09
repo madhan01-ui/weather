@@ -2,26 +2,23 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Weather App 🌦️</title>
+  <title>Realistic Weather App 🌦️</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div id="background"></div>
   <div class="app">
-    <h1 class="fade-in">🌤️ Animated Weather App</h1>
+    <h1>🌍 Realistic Weather App</h1>
 
     <div class="search">
       <input type="text" id="cityInput" placeholder="Enter city name">
-      <button onclick="getWeather()">Search</button>
+      <button onclick="getWeather()">Get Weather</button>
     </div>
 
-    <div id="weatherBox" class="weather-box fade-in">
-      <p>Type a city name to see the weather!</p>
-    </div>
-
-    <canvas id="rainCanvas"></canvas>
+    <div id="result"></div>
   </div>
 
-  <script src="rain.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
+
