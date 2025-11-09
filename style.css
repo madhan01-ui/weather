@@ -1,70 +1,109 @@
-/* === BASIC STYLE === */
-body {
+* {
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  overflow: hidden;
   font-family: "Poppins", sans-serif;
   text-align: center;
+  height: 100vh;
   color: #fff;
   transition: background 1s ease;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
+#background {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+}
+
+/* App box */
 .app {
+  margin-top: 80px;
   background: rgba(0,0,0,0.4);
+  display: inline-block;
   padding: 30px;
   border-radius: 15px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.4);
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
 
+/* Inputs */
 input {
-  padding: 8px;
-  font-size: 16px;
+  padding: 10px;
   width: 200px;
-}
-
-button {
-  padding: 8px 12px;
   font-size: 16px;
+  border-radius: 5px;
+  border: none;
+}
+button {
+  padding: 10px 15px;
   margin-left: 5px;
+  border: none;
+  background: #ffffff90;
   cursor: pointer;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+button:hover {
+  background: #fff;
+  color: #000;
 }
 
-/* ☀️ Sunny Animation */
+#result {
+  margin-top: 20px;
+  font-size: 18px;
+}
+
+/* ☀️ Sunny */
 .sunny {
-  background: linear-gradient(to top, #ffb347, #ffcc33);
+  background: linear-gradient(to top, #fddb92, #d1fdff);
+}
+.sunny::before {
+  content: "";
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  width: 120px;
+  height: 120px;
+  background: radial-gradient(circle, #ffdd55, #ffbb33);
+  border-radius: 50%;
+  box-shadow: 0 0 60px 20px rgba(255, 204, 51, 0.6);
+  transform: translateX(-50%);
+  animation: sunMove 10s linear infinite alternate;
+}
+@keyframes sunMove {
+  from { transform: translateX(-60%) translateY(0); }
+  to { transform: translateX(-40%) translateY(10px); }
 }
 
-/* ☁️ Cloudy Animation */
+/* ☁️ Cloudy */
 .cloudy {
-  background: linear-gradient(to top, #757f9a, #d7dde8);
-  overflow: hidden;
+  background: linear-gradient(to top, #a1c4fd, #c2e9fb);
 }
 .cloudy::before, .cloudy::after {
   content: "";
   position: absolute;
   top: 20%;
-  left: 10%;
-  width: 100px;
-  height: 60px;
+  left: -100px;
+  width: 150px;
+  height: 80px;
   background: #fff;
   border-radius: 50%;
-  animation: cloudMove 10s linear infinite;
+  box-shadow: 100px 20px 0 20px #fff, 200px 10px 0 30px #fff;
+  opacity: 0.8;
+  animation: cloudDrift 30s linear infinite;
 }
-.cloudy::after {
-  left: 60%;
-  animation-delay: 5s;
-}
-@keyframes cloudMove {
-  0% { transform: translateX(0); opacity: 0.9; }
-  100% { transform: translateX(100vw); opacity: 0.5; }
+@keyframes cloudDrift {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(100vw); }
 }
 
-/* 🌧️ Rain Animation */
+/* 🌧️ Rainy */
 .rainy {
   background: linear-gradient(to top, #232526, #414345);
-  overflow: hidden;
 }
 .rainy::before {
   content: "";
@@ -74,113 +113,27 @@ button {
   width: 2px;
   height: 20px;
   background: rgba(255,255,255,0.6);
-  animation: rain 0.5s linear infinite;
+  animation: rainDrop 0.5s linear infinite;
 }
-@keyframes rain {
-  0% { transform: translateY(0); opacity: 1; }
+@keyframes rainDrop {
+  0% { transform: translateY(-10px); opacity: 1; }
   100% { transform: translateY(100vh); opacity: 0; }
 }
 
-/* 🌫️ Misty Animation */
+/* 🌫️ Misty */
 .misty {
   background: linear-gradient(to top, #606c88, #3f4c6b);
 }
-.misty::before {
+.misty::before, .misty::after {
   content: "";
   position: absolute;
   top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(255,255,255,0.2);
-  animation: mist 5s ease-in-out infinite alternate;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(255,255,255,0.2), transparent 70%);
+  animation: mistMove 8s ease-in-out infinite alternate;
 }
-@keyframes mist {
-  from { opacity: 0.2; }
-  to { opacity: 0.5; }
+@keyframes mistMove {
+  from { transform: translateX(-20px); opacity: 0.3; }
+  to { transform: translateX(20px); opacity: 0.6; }
 }
-
-#result {
-  margin-top: 20px;
-  font-size: 18px;
-}
-
-input {
-  padding: 10px;
-  width: 200px;
-  border: none;
-  border-radius: 6px;
-  font-size: 16px;
-}
-
-button {
-  padding: 10px 15px;
-  font-size: 16px;
-  border: none;
-  border-radius: 6px;
-  margin-left: 5px;
-  background: #2196f3;
-  color: white;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-button:hover {
-  transform: scale(1.05);
-  background: #1e88e5;
-}
-
-/* === WEATHER CARD === */
-.weather-box {
-  background: rgba(0,0,0,0.4);
-  padding: 25px;
-  border-radius: 16px;
-  min-width: 280px;
-  transition: all 0.5s ease;
-  box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-}
-
-.weather-box img {
-  width: 100px;
-  animation: float 3s ease-in-out infinite;
-}
-
-@keyframes float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-  100% { transform: translateY(0px); }
-}
-
-/* === FADE-IN EFFECT === */
-.fade-in {
-  animation: fadeIn 1s ease forwards;
-  opacity: 0;
-}
-@keyframes fadeIn {
-  to { opacity: 1; }
-}
-
-/* === BACKGROUND VARIATIONS === */
-.sunny {
-  background: linear-gradient(to bottom, #4fc3f7, #81d4fa);
-}
-.cloudy {
-  background: linear-gradient(to bottom, #90a4ae, #cfd8dc);
-}
-.rainy {
-  background: linear-gradient(to bottom, #2e3d55, #1c2b40);
-}
-.night {
-  background: linear-gradient(to bottom, #141E30, #243B55);
-}
-
-/* === RAIN CANVAS === */
-canvas#rainCanvas {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  pointer-events: none;
-  display: none;
-  z-index: 1;
-}
-
