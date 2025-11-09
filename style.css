@@ -1,27 +1,69 @@
 body {
-  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
   text-align: center;
-  background: linear-gradient(135deg, #7fc1ff, #e6f7ff);
-  min-height: 100vh;
-  padding-top: 50px;
+  transition: background 0.5s ease;
+  color: #fff;
 }
 
-.container {
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-size: cover;
+  background-position: center;
+  padding: 20px;
+  position: relative;
+}
+
+.search {
   margin-bottom: 20px;
 }
 
 input {
-  padding: 8px;
-  width: 200px;
+  padding: 10px;
   font-size: 16px;
+  width: 200px;
+  border-radius: 6px;
+  border: none;
+  outline: none;
 }
 
 button {
-  padding: 8px 12px;
+  padding: 10px 14px;
   font-size: 16px;
-  margin-left: 5px;
+  border: none;
+  border-radius: 6px;
+  background: #2196f3;
+  color: white;
   cursor: pointer;
 }
+
+.weather-box {
+  background: rgba(0,0,0,0.5);
+  padding: 20px 30px;
+  border-radius: 12px;
+  display: inline-block;
+  min-width: 250px;
+}
+
+.weather-box img {
+  width: 80px;
+}
+
+canvas#rainCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  display: none;
+}
+
 
 #result {
   font-size: 18px;
@@ -31,3 +73,4 @@ button {
   padding: 20px;
   border-radius: 10px;
 }
+
